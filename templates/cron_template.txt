@@ -1,0 +1,31 @@
+# ==========================================================================
+# Hermes Self-Evolution Kit - Cron 任务模板
+# ==========================================================================
+#
+# 使用方法：
+#   1. 编辑下方路径和参数
+#   2. 执行: crontab cron_template.txt
+#      或手动添加: crontab -e 并粘贴内容
+#
+# Cron 格式: 分 时 日 月 周  命令
+#   示例: 0 2 * * *  →  每天凌晨 2 点
+#         0 */6 * * * →  每 6 小时
+#         */15 * * * * → 每 15 分钟
+# ==========================================================================
+
+# ---- 每日凌晨 2 点执行进化（推荐） ----
+0 2 * * * cd /home/admin/hermes-self-evolution-kit && \
+    /home/admin/hermes-self-evolution-kit/venv/bin/python \
+    scripts/evolve_once.py \
+    --config /home/admin/hermes-self-evolution-kit/config.yaml \
+    >> /home/admin/hermes-self-evolution-kit/logs/cron.log 2>&1
+
+# ---- 每天 9 点和 21 点各执行一次（双倍进化）----
+# 0 9,21 * * * cd /path/to/hermes-self-evolution-kit && \
+#     ./venv/bin/python scripts/evolve_once.py --config config.yaml \
+#     >> logs/cron.log 2>&1
+
+# ---- 每周日凌晨 3 点生成周报 ----
+# 0 3 * * 0 cd /path/to/hermes-self-evolution-kit && \
+#     ./venv/bin/python scripts/view_report.py --weekly \
+#     >> logs/weekly_report.log 2>&1
